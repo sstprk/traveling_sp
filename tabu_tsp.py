@@ -10,6 +10,9 @@ import numpy as np
 class Tabu:
     #Cost function
     def cost(solution, cost_matrix):
+        """
+        Objective function of the algorithm for calculating the fitness of given solution. For this case it calculating fitness by only considering the cost matrix as a factor. Returns total cost of the solution as an integer.
+        """
         
         cost = 0
         

@@ -20,7 +20,7 @@ class Genetic:
         self.cost_matrix = cost_matrix
         self.initial_sol = list([element for element in range(1, destination_count+1)])
         
-        self.first_gen = self.init_generation(self.initial_sol)
+        self.first_gen = self.create_generation(self.initial_sol)
         
     def set_initial_sol(self, new_sol):
         """
@@ -42,7 +42,7 @@ class Genetic:
             
         self.cost_matrix = new_cost_matrix
         
-    def init_generation(self, initial_sol):
+    def create_generation(self, initial_sol):
         """
         Function to create the first generation of the algorithm by taking the initial solution has been created before. Returns created generation as a 2D array.
         """
@@ -167,7 +167,7 @@ class Genetic:
         Function to choose the best solution among the given generation or any solution array with a compatible shape considering the count. Returns the first requested amount of best solutions as an 2D array.
         """
         
-        return sorted(solutions, key=lambda solution: (self.cost(solution), solution))[:count]
+        return sorted(solutions, key=lambda solution: self.cost(solution))[:count]
     
     def choose_worst(self, solutions, count = 1):
         """
@@ -181,26 +181,26 @@ class Genetic:
         Function to execute the algorithm for travelling salesman problem by iterating throuugh given number. Returns the best solution.
         """
         
-        current_gen = self.first_gen
+        current_gen = self.first_gen.copy()
         best_solution = self.choose_best(current_gen, 1)
 
         for iterr in range(max_iteration):
             
-            print(current_gen)
-            print(f"{iterr+1}. generation :")
-            
             new_gen = self.new_generation(current_gen)
             
-            print(new_gen)
+            
             
             best_in_newgen = self.choose_best(new_gen, 1)         
             
             if self.cost(best_solution[0]) < self.cost(best_in_newgen[0]):
                 best_solution = best_in_newgen
             
-            current_gen = new_gen
-                                
+            if iterr % 100 == 0:
+                print(current_gen)
+                print(f"{iterr+1}. generation :")
+                print(new_gen)
+                print(f"Best solution : {best_solution}, Cost : {self.cost(best_solution[0])}")
             
-            print(f"Best solution : {best_solution}, Cost : {self.cost(best_solution[0])}")
+            current_gen = new_gen
             
         return best_solution

@@ -27,8 +27,8 @@ initialsol = [1, 2, 3, 4, 5, 6]
 
 gen = Genetic(cost_matrix_complex, 6)
 
-genee = gen.init_generation(initialsol)
+"""genee = gen.init_generation(initialsol)
 
-new = gen.new_generation(genee)
+new = gen.new_generation(genee)"""
 
-solution = gen.genetic_run(100)
+solution = gen.genetic_run(1000)
