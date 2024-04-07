@@ -20,14 +20,12 @@ class Genetic:
         self.cost_matrix = cost_matrix
         self.initial_sol = list([element for element in range(1, destination_count+1)])
         
-        self.first_gen = self.create_generation(self.initial_sol)
-        
     def set_initial_sol(self, new_sol):
         """
         Set function for letting user to set a new initial solution respect to the destination count has been set before.
         """
         
-        if len(new_sol != self.destination_count):
+        if len(new_sol != self.destination_count) or self.initial_sol[0] != new_sol[0]:
             raise Exception("New solution must have the same destination count as the one created initially.")
             
         self.initial_sol = new_sol
@@ -49,7 +47,7 @@ class Genetic:
         
         generation = []
         
-        for i in range(len(initial_sol)):
+        for i in range(1, len(initial_sol)):
             
             for j in range(i+1, len(initial_sol)):
                 member = initial_sol.copy()
@@ -181,26 +179,25 @@ class Genetic:
         Function to execute the algorithm for travelling salesman problem by iterating throuugh given number. Returns the best solution.
         """
         
-        current_gen = self.first_gen.copy()
-        best_solution = self.choose_best(current_gen, 1)
+        current_gen = self.create_generation(self.initial_sol)
+        best_solution = self.choose_best(current_gen, 1)[0]
 
         for iterr in range(max_iteration):
             
             new_gen = self.new_generation(current_gen)
             
+            best_in_newgen = self.choose_best(new_gen, 1)[0]         
             
+            best_solution = best_in_newgen
             
-            best_in_newgen = self.choose_best(new_gen, 1)         
-            
-            if self.cost(best_solution[0]) < self.cost(best_in_newgen[0]):
-                best_solution = best_in_newgen
-            
-            if iterr % 100 == 0:
-                print(current_gen)
-                print(f"{iterr+1}. generation :")
-                print(new_gen)
-                print(f"Best solution : {best_solution}, Cost : {self.cost(best_solution[0])}")
+            if iterr % (max_iteration // 10) == 0:
+                #print(current_gen)
+                print(f"{iterr+1}. generation : {best_solution}, Cost : {self.cost(best_solution)}")
             
             current_gen = new_gen
-            
+
+        print("------------------------------------------------------------")
+        print(f"Best solution : {best_solution}, {self.cost(best_solution)}")
+        print("------------------------------------------------------------")
+
         return best_solution

@@ -9,26 +9,39 @@ import numpy as np
 
 from genetic_tsp import Genetic
 from tabu_tsp import Tabu
+from simulated_ann_tsp import SimulatedAnnealing
 
-cost_matrix_complex = np.array([[0, 10, 20, 3, 9, 8],
-                                [7, 0, 9, 19, 4, 1],
-                                [6, 18, 0, 12, 3, 18],
-                                [10, 2, 6, 0, 13, 15],
-                                [13, 9, 12, 19, 0, 3],
-                                [5, 11, 8, 2, 10, 0]])
+np.random.seed(1)
 
-cost_matrix_complex = np.array([[0, 10, 20, 3, 9, 8],
-                                [7, 0, 9, 19, 4, 1],
-                                [6, 18, 0, 12, 3, 18],
-                                [10, 2, 6, 0, 13, 15],
-                                [13, 9, 12, 19, 0, 3],
-                                [5, 11, 8, 2, 10, 0]])
-initialsol = [1, 2, 3, 4, 5, 6]
+cost_matrix_complex = np.random.randint(1,20, (10,10))
 
-gen = Genetic(cost_matrix_complex, 6)
+for idx in range(cost_matrix_complex.shape[0]):
+    cost_matrix_complex[idx][idx] = 0
 
-"""genee = gen.init_generation(initialsol)
+gen = Genetic(cost_matrix_complex, 10)
+tabu = Tabu(cost_matrix_complex, 10)
+simulann = SimulatedAnnealing(cost_matrix_complex, 10)
 
-new = gen.new_generation(genee)"""
+initialsol = [1,2,4,5,3,6,8,7,9,10]
+"""
+genee = gen.create_generation(initialsol)
 
-solution = gen.genetic_run(1000)
+new = gen.new_generation(genee)
+
+gen2 = gen.new_generation(new)"""
+
+print("GENETIC ALGORITHM")
+print("------------------------------------------------------------")
+
+solution_gen = gen.genetic_run(200)
+
+print("TABU SEARCH ALGORITHM")
+print("------------------------------------------------------------")
+
+solution_tabu = tabu.tabu_run(100, 4)
+
+print("SIMULATED ANNEALING ALGORITHM")
+print("------------------------------------------------------------")
+
+solution_ann = simulann.annealing_run(10)
+

@@ -19,7 +19,6 @@ class SimulatedAnnealing:
         self.cost_matrix = cost_matrix
         self.initial_sol = list([element for element in range(1, destination_count+1)])
         
-        self.initial_gen = self.create_generation(self.initial_sol)
         
     def cost(self, solution):
         """
@@ -46,7 +45,7 @@ class SimulatedAnnealing:
         
         generation = []
         
-        for i in range(len(initial_sol)):
+        for i in range(1, len(initial_sol)):
             
             for j in range(i+1, len(initial_sol)):
                 member = initial_sol.copy()
@@ -64,31 +63,39 @@ class SimulatedAnnealing:
         
         return np.exp(-(current_sol - new_sol) / temp) > np.random.random(1)[0]
     
-    def annealing_main(self, init_temp):
-        """
-        
-        """
-        
-        current_best = self.choose_best(self.initial_gen)
-        
-        for temp in reversed(range(init_temp)):
-            new_gen = self.create_generation(current_best)
-            
-            new_best = self.choose_best(new_gen)
-            
-            if self.cost(current_best) > self.cost(new_best):
-                current_best = new_best
-                
-            else:
-                if self.acceptance_check(current_best, new_best, temp):
-                    current_best = new_best
-        return current_best
-    
     def choose_best(self, solutions, count = 1):
         """
         Function to choose the best solution among the given generation or any solution array with a compatible shape considering the count. Returns the first requested amount of best solutions as an 2D array.
         """
         
         return sorted(solutions, key=lambda solution: self.cost(solution))[:count]
+    
+    def annealing_run(self, init_temp):
+        """
+        
+        """
+        initial_gen = self.create_generation(self.initial_sol)
+        current_best = self.choose_best(initial_gen)[0]
+        
+        for temp in reversed(range(init_temp)):
+            new_gen = self.create_generation(current_best)
+            
+            new_best = self.choose_best(new_gen)[0]
+            
+            if self.cost(current_best) > self.cost(new_best):
+                current_best = new_best
+                
+            else:
+                if self.acceptance_check(self.cost(current_best), self.cost(new_best), temp):
+                    current_best = new_best
+                    
+            if temp % (init_temp // 10) == 0:
+                print(f"{temp+1} degree : {current_best}, {self.cost(current_best)}")
+        print("------------------------------------------------------------")
+        print(f"Best solution : {current_best}, {self.cost(current_best)}")
+        print("------------------------------------------------------------")
+
+        return current_best
+    
     
     
