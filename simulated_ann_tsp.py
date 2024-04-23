@@ -92,7 +92,7 @@ class SimulatedAnnealing:
             if temp % (init_temp // 10) == 0:
                 print(f"{temp+1} degree : {current_best}, {self.cost(current_best)}")
         print("------------------------------------------------------------")
-        print(f"Best solution : {current_best}, {self.cost(current_best)}")
+        print(f"Best solution : {self.cost(current_best)}")
         print("------------------------------------------------------------")
 
         return current_best

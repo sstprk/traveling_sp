@@ -47,15 +47,12 @@ class Genetic:
         
         generation = []
         
-        for i in range(1, len(initial_sol)):
+        for i in range(2000):
+            member = list(range(2, len(initial_sol)+1))
+            np.random.shuffle(member)
+            member = [1] + member
+            generation.append(member)
             
-            for j in range(i+1, len(initial_sol)):
-                member = initial_sol.copy()
-
-                member[i], member[j] = member[j], member[i]
-                
-                generation.append(member)
-                
         return generation
     
     def cost(self, solution):
@@ -107,7 +104,7 @@ class Genetic:
         part_a = parent_a[start:end]
         part_b = list([element for element in parent_b if not element in part_a])
         
-        for i in range(len(parent_a)):
+        for i in range(0, len(parent_a)):
             if start <= i < end:
                 offspring.append(part_a.pop(0))
                 
@@ -144,7 +141,7 @@ class Genetic:
             
             if np.random.randint(0, 1000) < 9:
                 
-                idx1, idx2 = np.random.randint(0, len(member)-1), np.random.randint(0, len(member)-1)
+                idx1, idx2 = np.random.randint(1, len(member)-1), np.random.randint(1, len(member)-1)
                 member[idx1], member[idx2] = member[idx2], member[idx1]
             
             mutated_gen.append(member)
@@ -197,7 +194,7 @@ class Genetic:
             current_gen = new_gen
 
         print("------------------------------------------------------------")
-        print(f"Best solution : {best_solution}, {self.cost(best_solution)}")
+        print(f"Best solution : {self.cost(best_solution)}")
         print("------------------------------------------------------------")
 
         return best_solution

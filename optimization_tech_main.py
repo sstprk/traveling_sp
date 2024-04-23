@@ -13,16 +13,15 @@ from simulated_ann_tsp import SimulatedAnnealing
 
 np.random.seed(1)
 
-cost_matrix_complex = np.random.randint(1,20, (10,10))
+cost_matrix_complex = np.random.randint(1,20, (20,20))
 
 for idx in range(cost_matrix_complex.shape[0]):
     cost_matrix_complex[idx][idx] = 0
 
-gen = Genetic(cost_matrix_complex, 10)
-tabu = Tabu(cost_matrix_complex, 10)
-simulann = SimulatedAnnealing(cost_matrix_complex, 10)
+gen = Genetic(cost_matrix_complex, 20)
+tabu = Tabu(cost_matrix_complex, 20)
+simulann = SimulatedAnnealing(cost_matrix_complex, 20)
 
-initialsol = [1,2,4,5,3,6,8,7,9,10]
 """
 genee = gen.create_generation(initialsol)
 
@@ -33,15 +32,15 @@ gen2 = gen.new_generation(new)"""
 print("GENETIC ALGORITHM")
 print("------------------------------------------------------------")
 
-solution_gen = gen.genetic_run(200)
+solution_gen = gen.genetic_run(500)
 
 print("TABU SEARCH ALGORITHM")
 print("------------------------------------------------------------")
 
-solution_tabu = tabu.tabu_run(100, 4)
+solution_tabu = tabu.tabu_run(500, 10)
 
 print("SIMULATED ANNEALING ALGORITHM")
 print("------------------------------------------------------------")
 
-solution_ann = simulann.annealing_run(10)
+solution_ann = simulann.annealing_run(500)
 

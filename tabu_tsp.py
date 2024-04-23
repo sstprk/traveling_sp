@@ -37,7 +37,7 @@ class Tabu:
     #Function for generating neighbors
     def generate_neighbors(self, solution):
         """
-        
+        Function for generating possible neighbors. Takes an initial solution as input. Returns the new generated neighbours as a list.
         """
         
         neighbors = []
@@ -63,12 +63,10 @@ class Tabu:
         best_solution = initial_sol
         current_solution = initial_sol
         best_neighbor_cost = float("inf")
-        
-        counter = 0
-        
+        best_neighbor = None
+                
         for i in range(max_iteration):
             neighbors = self.generate_neighbors(current_solution)
-            best_neighbor = None
             
             
             for neighbor in neighbors:
@@ -78,9 +76,10 @@ class Tabu:
                         best_neighbor = neighbor
                         best_neighbor_cost = neighbor_cost
                        
-            if np.array_equal(best_neighbor, None):
+                    
+            """if np.array_equal(best_neighbor, None):
                 print("terminated")
-                break
+                break"""
             
             current_solution = best_neighbor
     
@@ -98,7 +97,7 @@ class Tabu:
                 print(f"Tabu list: {tabu_list}")
                 print(f"Best solution on the {i}. iteration: {best_solution}, Cost: {self.cost(best_solution)}")
         print("------------------------------------------------------------")
-        print(f"{i}.Solution: {best_solution, self.cost(best_solution)}")
+        print(f"Best solution is the {i}. solution: {self.cost(best_solution)}")
         print("------------------------------------------------------------")
 
         return list(best_solution)
