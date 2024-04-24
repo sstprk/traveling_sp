@@ -79,15 +79,14 @@ class SimulatedAnnealing:
         
         for temp in reversed(range(init_temp)):
             new_gen = self.create_generation(current_best)
+            new_sol = self.choose_best(new_gen)[0]
             
-            new_best = self.choose_best(new_gen)[0]
-            
-            if self.cost(current_best) > self.cost(new_best):
-                current_best = new_best
+            if self.cost(current_best) > self.cost(new_sol):
+                current_best = new_sol
                 
             else:
-                if self.acceptance_check(self.cost(current_best), self.cost(new_best), temp):
-                    current_best = new_best
+                if self.acceptance_check(self.cost(current_best), self.cost(new_sol), temp):
+                    current_best = new_sol
                     
             if temp % (init_temp // 10) == 0:
                 print(f"{temp+1} degree : {current_best}, {self.cost(current_best)}")

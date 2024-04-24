@@ -41,14 +41,14 @@ class Tabu:
         """
         
         neighbors = []
-        for i in range(1, len(solution)):
+        for i in range(1, len(solution)-1):
             
             for j in range(i+1, len(solution)):
-                
-                neighbor = solution.copy()
-                neighbor[i], neighbor[j] = neighbor[j], neighbor[i]
-                
-                neighbors.append(neighbor)
+                if i != j:
+                    neighbor = solution.copy()
+                    neighbor[i], neighbor[j] = neighbor[j], neighbor[i]
+                    
+                    neighbors.append(neighbor)
                 
         return neighbors
     
@@ -63,11 +63,10 @@ class Tabu:
         best_solution = initial_sol
         current_solution = initial_sol
         best_neighbor_cost = float("inf")
-        best_neighbor = None
                 
         for i in range(max_iteration):
+            best_neighbor = None
             neighbors = self.generate_neighbors(current_solution)
-            
             
             for neighbor in neighbors:
                 if not any(np.array_equal(neighbor, tabu) for tabu in tabu_list):
@@ -77,11 +76,12 @@ class Tabu:
                         best_neighbor_cost = neighbor_cost
                        
                     
-            """if np.array_equal(best_neighbor, None):
+            if np.array_equal(best_neighbor, None):
                 print("terminated")
-                break"""
+                break
             
             current_solution = best_neighbor
+            tabu_list.append(best_neighbor)
     
             if len(tabu_list) > tabu_list_size:
                 
@@ -90,7 +90,6 @@ class Tabu:
             if self.cost(current_solution) < self.cost(best_solution):
                 
                 best_solution = current_solution
-                tabu_list.append(current_solution)
     
             
             if i % (max_iteration // 10) == 0:
