@@ -9,16 +9,14 @@ Created on Mon Apr  1 23:31:05 2024
 import numpy as np
 
 class Genetic:
-    def __init__(self, cost_matrix, destination_count):
+    def __init__(self, cost_matrix):
         """
         Constructor of the class for generating a random initial solution and take a cost matrix as an input to know how many units takes to get from one location to another. 
         """
-        
-        if cost_matrix.shape != (destination_count, destination_count):
-            raise Exception("Cost matrix and destination count are incompatible.")
             
+        self.destination_count = cost_matrix.shape[0]    
         self.cost_matrix = cost_matrix
-        self.initial_sol = list([element for element in range(1, destination_count+1)])
+        self.initial_sol = list([element for element in range(1, self.destination_count+1)])
         
     def set_initial_sol(self, new_sol):
         """
@@ -197,4 +195,4 @@ class Genetic:
         print(f"Best solution : {self.cost(best_solution)}")
         print("------------------------------------------------------------")
 
-        return best_solution
+        return best_solution, self.cost(best_solution)

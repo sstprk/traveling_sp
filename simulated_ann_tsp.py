@@ -8,16 +8,14 @@ Created on Thu Apr  4 00:18:24 2024
 import numpy as np
 
 class SimulatedAnnealing:
-    def __init__(self, cost_matrix, destination_count):
+    def __init__(self, cost_matrix):
         """
         
         """
-
-        if cost_matrix.shape != (destination_count, destination_count):
-            raise Exception("Cost matrix and destination count are incompatible.")
-            
+        
+        self.destination_count = cost_matrix.shape[0]
         self.cost_matrix = cost_matrix
-        self.initial_sol = list([element for element in range(1, destination_count+1)])
+        self.initial_sol = list([element for element in range(1, self.destination_count+1)])
         
         
     def cost(self, solution):
@@ -94,7 +92,7 @@ class SimulatedAnnealing:
         print(f"Best solution : {self.cost(current_best)}")
         print("------------------------------------------------------------")
 
-        return current_best
+        return current_best, self.cost(current_best)
     
     
     

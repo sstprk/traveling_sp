@@ -8,13 +8,13 @@ Created on Sat Mar 30 23:13:03 2024
 import numpy as np
 
 class Tabu:
-    def __init__(self, cost_matrix, destination_count):
+    def __init__(self, cost_matrix):
         """
         
         """
         
         self.cost_matrix = cost_matrix
-        self.destination_count = destination_count
+        self.destination_count = cost_matrix.shape[0]
     
     def cost(self, solution):
         """
@@ -99,5 +99,5 @@ class Tabu:
         print(f"Best solution is the {i}. solution: {self.cost(best_solution)}")
         print("------------------------------------------------------------")
 
-        return list(best_solution)
+        return list(best_solution), self.cost(best_solution)
     
